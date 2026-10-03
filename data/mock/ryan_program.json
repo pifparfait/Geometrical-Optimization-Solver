@@ -1,0 +1,22 @@
+{
+  "scenario_id": "mock_v0",
+  "program": [
+    {
+      "program_type": "cafe",
+      "quantity": 3
+    },
+    {
+      "program_type": "restaurant",
+      "quantity": 2
+    },
+    {
+      "program_type": "clinic",
+      "quantity": 1
+    },
+    {
+      "program_type": "library",
+      "quantity": 1
+    }
+  ],
+  "note": "Temporary interface fixture only. Quantities are integer instances for V0."
+}

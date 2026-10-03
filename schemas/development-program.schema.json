@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "development-program.schema.json",
+  "title": "Development program",
+  "description": "What is built on one segment of the Volpe site. See development-programs.md. The map also checks how the buildings fit together (cells on the segment, no overhangs or overlaps, every level given once), which this schema can't.",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "summary",
+    "segment",
+    "buildings"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "description": "The option it belongs to: programs with the same id are one option, with a plan per segment.",
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "description": "The option's name in the panel; the same in every program with this id.",
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "description": "One sentence for the panel and the voice assistant; the same in every program with this id.",
+      "type": "string",
+      "minLength": 1
+    },
+    "segment": {
+      "description": "The segment it plans, 0-based (the panel's Segment 1 is 0).",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4
+    },
+    "buildings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/building"
+      }
+    }
+  },
+  "$defs": {
+    "building": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "footprint",
+        "floors"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "A name, unique within the segment.",
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "description": "Sets the floors' colour.",
+          "enum": [
+            "podium",
+            "tower",
+            "plinth"
+          ]
+        },
+        "on": {
+          "description": "The id of the building it stands on.",
+          "type": "string",
+          "minLength": 1
+        },
+        "footprint": {
+          "description": "The cells it stands on, or \"segment\" for every cell of the segment.",
+          "oneOf": [
+            {
+              "const": "segment"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": [
+                  "row",
+                  "col"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "row": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 13
+                  },
+                  "col": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 13
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "floors": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/floor"
+          }
+        }
+      }
+    },
+    "floor": {
+      "type": "object",
+      "required": [
+        "levels"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "levels": {
+          "description": "[level] or [first, last], inclusive, counted from the building's ground floor.",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "units": {
+          "description": "How many of each unit type on each of the floor's levels.",
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "studio",
+              "1br",
+              "2br",
+              "3br"
+            ]
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "amenities": {
+          "description": "How many of each amenity type on each of the floor's levels.",
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "lobby",
+              "retail",
+              "grocery",
+              "cafe",
+              "restaurant",
+              "gym",
+              "daycare",
+              "clinic",
+              "library",
+              "coworking",
+              "makerspace",
+              "events",
+              "lounge",
+              "laundry",
+              "roofDeck",
+              "roofGarden"
+            ]
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "serves": {
+          "description": "Whose homes the floor's amenities serve.",
+          "enum": [
+            "development",
+            "building"
+          ]
+        }
+      },
+      "dependentRequired": {
+        "serves": [
+          "amenities"
+        ]
+      }
+    }
+  }
+}
