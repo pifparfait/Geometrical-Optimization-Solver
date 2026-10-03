@@ -1,0 +1,30 @@
+{
+  "contract_version": "0.3a",
+  "currency": "USD",
+  "amenities": [
+    {
+      "amenity_type": "cafe",
+      "footprint_sqft": 1.0,
+      "profit_usd": 1.0,
+      "basis_unit": "DEMO_PLACEHOLDER_PER_INSTANCE"
+    },
+    {
+      "amenity_type": "restaurant",
+      "footprint_sqft": 1.0,
+      "profit_usd": 1.0,
+      "basis_unit": "DEMO_PLACEHOLDER_PER_INSTANCE"
+    },
+    {
+      "amenity_type": "clinic",
+      "footprint_sqft": 1.0,
+      "profit_usd": 1.0,
+      "basis_unit": "DEMO_PLACEHOLDER_PER_INSTANCE"
+    },
+    {
+      "amenity_type": "library",
+      "footprint_sqft": 1.0,
+      "profit_usd": 1.0,
+      "basis_unit": "DEMO_PLACEHOLDER_PER_INSTANCE"
+    }
+  ]
+}

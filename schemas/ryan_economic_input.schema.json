@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ryan-economic-input.schema.json",
+  "title": "Ryan Economic Input Contract",
+  "description": "Placeholder economic interface for VOLPE V0.3a. Footprint and profit refer to the same explicit basis/unit.",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "currency",
+    "amenities"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "0.3a"
+    },
+    "currency": {
+      "const": "USD"
+    },
+    "amenities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "amenity_type",
+          "footprint_sqft",
+          "profit_usd",
+          "basis_unit"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "amenity_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "footprint_sqft": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "profit_usd": {
+            "type": "number"
+          },
+          "basis_unit": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Decision basis shared by footprint and profit, e.g. per_amenity_instance."
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
