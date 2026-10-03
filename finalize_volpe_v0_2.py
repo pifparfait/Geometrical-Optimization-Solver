@@ -1,4 +1,31 @@
-# Geometrical Optimization Solver
+from pathlib import Path
+
+ROOT = Path.cwd()
+
+required = [
+    ROOT / ".gitignore",
+    ROOT / "README.md",
+    ROOT / "run_demo.py",
+    ROOT / "src" / "optimizer.py",
+    ROOT / "src" / "matti_adapter.py",
+]
+missing = [str(p) for p in required if not p.exists()]
+if missing:
+    raise SystemExit(
+        "Run this from the Geometrical-Optimization-Solver project root. Missing: "
+        + ", ".join(missing)
+    )
+
+# Generated solver outputs are reproducible artifacts and should not be versioned.
+gitignore = (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines()
+gitignore = [
+    line for line in gitignore
+    if not line.startswith("outputs/")
+]
+gitignore.append("outputs/")
+(ROOT / ".gitignore").write_text("\n".join(gitignore).rstrip() + "\n", encoding="utf-8")
+
+readme = """# Geometrical Optimization Solver
 
 Small, reproducible geometry-optimization scaffold for the VOLPE development-program pipeline.
 
@@ -106,3 +133,10 @@ internal optimization representation.
 V0.2 proves that the geometry engine can optimize a controlled objective. The next formulation
 should define which real spatial/urban signals belong in the objective and constraints before
 adding solver complexity or claiming urban-performance meaning.
+"""
+
+(ROOT / "README.md").write_text(readme, encoding="utf-8")
+
+print("UPDATED: .gitignore")
+print("UPDATED: README.md")
+print("V0.2 DOCUMENTATION FINALIZATION: PASS")

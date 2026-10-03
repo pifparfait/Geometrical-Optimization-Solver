@@ -1,11 +1,8 @@
 from collections import defaultdict
 
 
-def to_matti_programs(scenario_id, placements):
-    """
-    Convert canonical V0.1 placements into Matti development-program JSON.
-    Placements sharing a cell become floors of the same single-cell plinth.
-    """
+def to_matti_programs(scenario_id, placements, variant="optimized"):
+    """Convert canonical placements into Matti development-program JSON."""
     stacks = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     for p in placements:
         key = (p["segment"], p["row"], p["col"])
@@ -41,9 +38,13 @@ def to_matti_programs(scenario_id, placements):
             })
 
         outputs.append({
-            "id": scenario_id,
-            "name": "Geometry optimizer V0.1",
-            "summary": "Deterministic horizontal and vertical interface test.",
+            "id": f"{scenario_id}-{variant}",
+            "name": f"Geometry optimizer V0.2 — {variant}",
+            "summary": (
+                "V0.2 baseline geometry."
+                if variant == "baseline"
+                else "V0.2 technical compactness demo; no urban-performance or global-optimality claim."
+            ),
             "segment": segment,
             "buildings": buildings,
         })
